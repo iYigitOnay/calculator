@@ -1,63 +1,65 @@
-import { useState } from "react";
+import { useReducer } from "react";
+import { initialState, reducer } from "../reducers/calculatorReducer";
 import "./Calculator.css";
 
-const Calculator = () => {
-  const [number1, setNumber1] = useState(0);
-  const [number2, setNumber2] = useState(0);
-  const [result, setResult] = useState(0);
+const CalculatorUseReducer = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleNumber1Change = (e) => {
-    setNumber1(Number(e.target.value));
+    dispatch({ type: "SET_NUMBER1", payload: Number(e.target.value) });
   };
 
   const handleNumber2Change = (e) => {
-    setNumber2(Number(e.target.value));
+    dispatch({ type: "SET_NUMBER2", payload: Number(e.target.value) });
   };
 
   const handleAddition = () => {
-    setResult(number1 + number2);
+    dispatch({ type: "SET_RESULT", payload: state.number1 + state.number2 });
   };
+
+  console.log(state.number1 + state.number2);
 
   return (
     <div className="calculator-container">
-      <h1>UseState</h1>
+      <h1>useReducer</h1>
       <div className="form-container">
-        <div className="form-grup">
+        <div className="form-group">
           <label className="form-label" htmlFor="number1">
-            Number 1:
+            Number1
           </label>
           <input
             className="form-input"
             type="number"
             id="number1"
-            value={number1}
             onChange={handleNumber1Change}
+            value={state.number1}
           />
         </div>
-        <div className="form-grup">
+        <div className="form-group">
           <label className="form-label" htmlFor="number2">
-            Number 2:
+            Number2
           </label>
           <input
             className="form-input"
             type="number"
             id="number2"
-            value={number2}
             onChange={handleNumber2Change}
+            value={state.number2}
           />
         </div>
         <button className="form-button" onClick={handleAddition}>
           Add
         </button>
-        <div className="form-grup">
+        <div className="form-group">
           <label className="form-label" htmlFor="result">
-            Result:
+            Result
           </label>
           <input
             className="form-input"
             type="number"
             id="result"
-            value={result}
+            value={state.result}
+            readOnly
           />
         </div>
       </div>
@@ -65,4 +67,4 @@ const Calculator = () => {
   );
 };
 
-export default Calculator;
+export default CalculatorUseReducer;
